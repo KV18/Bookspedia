@@ -1,70 +1,76 @@
 package com.Bookspedia.daoimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Bookspedia.dao.CategoryDao;
 import com.Bookspedia.dto.Category;
 
-
-@Repository
+@Repository("categoryDao")
+@Transactional
 public class CategoryDaoimpl implements CategoryDao {
 
-	
-	
-	private static List<Category> categories = new ArrayList<>();
-	
-	static {
-		
-		Category category = new Category();
-		
-		category.setCategoryId(1);
-		category.setCategoryName("Television");
-		category.setCategoryDescription("This is description for television");
-		category.setImageUrl("Cat_tele.jpg");
-		
-		categories.add(category);
-		
-		//second
-		category = new Category();
-		category.setCategoryId(2);
-		category.setCategoryName("Mobiles");
-		category.setCategoryDescription("This is description for mobiles");
-		category.setImageUrl("Cat_mob.jpg");
-		
-		categories.add(category);
-		
-		//third
-		category = new Category();
-		category.setCategoryId(3);
-		category.setCategoryName("Laptop");
-		category.setCategoryDescription("This is description for laptop");
-		category.setImageUrl("Cat_lap.jpg");
-		
-		categories.add(category);
-	}
-	
-	
+	@Autowired
+	private SessionFactory sessionFactory;
+
 	@Override
 	public List<Category> getCategoryList() {
-		// TODO Auto-generated method stub
-		return categories;
+		
+		String selectActiveCategory = "FROM Category WHERE active = :active";
+		Query query = sessionFactory.getCurrentSession().createQuery(selectActiveCategory);
+		query.setParameter("active", true);
+		return query.getResultList();
 	}
-
 
 	@Override
 	public Category getCategoryById(int id) {
-		
-		for(Category category : categories)
-		{
-			if(category.getCategoryId()==id)
-			{
-				return category;
-			}
+		return sessionFactory.getCurrentSession().get(Category.class, Integer.valueOf(id));
+	}
+
+	@Override
+
+	public boolean addCategory(Category category) {
+
+		try {
+
+			sessionFactory.getCurrentSession().persist(category);
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
 		}
-		return null;
+
+	}
+
+	@Override
+	public boolean updateCategory(Category category) {
+		try {
+
+			sessionFactory.getCurrentSession().update(category);
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean deleteCategory(Category category) {
+		category.setActive(false);
+		try {
+
+			sessionFactory.getCurrentSession().update(category);
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		
 	}
 
 }

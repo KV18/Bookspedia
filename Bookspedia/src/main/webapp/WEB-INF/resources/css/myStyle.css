@@ -11,7 +11,7 @@ html
 body {
   padding-top: 80px;
   height:100%;
-  font-family:'Quicksand' sans-serif;
+  font-family: 'Bai Jamjuree', sans-serif;
   
 }
 
@@ -32,7 +32,11 @@ body {
 	width:100%;
 }
 
-
+.dataTableImg{
+	
+	width:100px;
+	height:100px;
+}
 
 
 /*

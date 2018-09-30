@@ -37,38 +37,37 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">   
- 
-<link href="https://fonts.googleapis.com/css?family=Bai+Jamjuree" rel="stylesheet">    
+
+<link href="https://fonts.googleapis.com/css?family=Bai+Jamjuree" rel="stylesheet">   
+    
 </head>
 
 <body>
 
 	<div class="wrapper">
-		<!-- navbar -->
-		<%@include file="/WEB-INF/views/templates/navbar.jsp"%>
-
-		<!-- page content -->
+		
 		<div class="content">
-			<c:if test="${userClickHome==true}">
-				<%@ include file="home.jsp"%>
-			</c:if>
-
-			<c:if test="${userClickAbout==true}">
-				<%@ include file="about.jsp"%>
-			</c:if>
-
-			<c:if test="${userClickContact==true}">
-				<%@ include file="contact.jsp"%>
-			</c:if>
-			
-			<c:if test="${userClickAllProducts==true or userClickCategoryProducts == true}">
-				<%@ include file="listProducts.jsp"%>
-			</c:if>
-			
-			<c:if test="${userClickShowProduct==true}">
-				<%@ include file="singleProduct.jsp"%>
-			</c:if>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="jumbotron">
+							<div class="col-sm-4">
+								<i class="far fa-sad-tear" style="font-size:150px"></i>
+							</div>
+							<div class="col-sm-7">
+							<h1>${errorTitle}</h1>
+							<hr />
+							<blockquote style="word-wrap:break-word;">
+								${errorDescription}
+							</blockquote>
+							<a href="${contextRoot}/home" class="btn btn-primary">Back to Home</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+		
 		<!-- footer -->
 		<%@include file="/WEB-INF/views/templates/footer.jsp"%>
 
